@@ -9,8 +9,10 @@ export const TableList = ({ numbers, onRemove }: TableListProps) => {
       <h2 className="text-xl font-semibold text-center">{t('list')}</h2>
 
       {/* тернарка чтобыы рендерило список или сообщение о том, что нет чисел введенных еще */}
+
       {numbers.length > 0 ? (
         <ul className="space-y-2">
+          {/* ВАЖНЫЙ МОМЕНТ: КОГДА ПРОХОДИЛСЯ ПО МАССИВУ NUMBERS В КАЧЕСТВЕ КЛЮЧА KEY ИСПОЛЬЗОВАЛ INDEX, ДЛЯ ДАННОГО ПРИЛОЖЕНИЯ ЭТО ДОПУСТИМО, НО ЕСЛИ В ПРИЛОЖЕНИИ МОЖЕТ МЕНЯЕТЬСЯ ИНДЕКС ИЛИ ДОБАВЛЯТЬСЯ НЕ В КОНЕЦ КАК ТУТ, ТО ЭЛЕМЕНТЫ МОГУТ ОТОБРАЖАТЬСЯ НЕ ПРАВИЛЬНО */}
           {numbers.map((num, index) => (
             <li
               key={index}
