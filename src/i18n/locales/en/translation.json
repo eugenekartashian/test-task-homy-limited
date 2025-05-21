@@ -1,0 +1,15 @@
+{
+  "label": "Enter a number",
+  "placeholder": "Only digits are allowed",
+  "add": "Add",
+  "error": "Please enter a valid number.",
+  "stats": "Statistics",
+  "qty": "Quantity",
+  "average": "Average value",
+  "min": "Minimum value",
+  "max": "Maximum value",
+
+  "list": "Value List",
+  "remove": "Remove",
+  "result": "No numbers added yet"
+}
