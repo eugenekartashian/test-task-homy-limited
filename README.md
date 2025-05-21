@@ -1,54 +1,53 @@
-# React + TypeScript + Vite
+<h1>React, TypeScript, Vite, TailwindCSS, Shadcn/UI, i18n</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h2>Что умеет это приложение?</h2>
+<ul>
+  <li>Добавлять числа в список</li>
+  <li>Удалять числа из списка</li>
+  <li>Отображать таблицу статистики: количество чисел, их среднее значение, минимальное значение и максимальное</li>
+  <li>Сохранять данные в localstorage после перезагрузки страницы</li>
+  <li>Мультиязычность i18n: английский, украинский, русский</li>
+</ul>
 
-Currently, two official plugins are available:
+<h2>Что сделал?</h2>
+<ul>1. Разбил на компоненты для удобства со структурой, где Table основной компонент, который управляет состоянием и в нем объединяются остальные компоненты.
+  <li>TableInput - ввод чисел и добавление через кнопку.</li>
+  <li>TableList - отображение списка чисел и удаление через кнопку.
+(ВАЖНЫЙ МОМЕНТ: КОГДА ПРОХОДИЛСЯ ПО МАССИВУ NUMBERS В КАЧЕСТВЕ КЛЮЧА KEY ИСПОЛЬЗОВАЛ INDEX, 
+ДЛЯ ДАННОГО ПРИЛОЖЕНИЯ ЭТО ДОПУСТИМО, НО ЕСЛИ В ПРИЛОЖЕНИИ МОЖЕТ МЕНЯЕТЬСЯ ИНДЕКС ИЛИ ДОБАВЛЯТЬСЯ НЕ В КОНЕЦ КАК ТУТ, ТО ЭЛЕМЕНТЫ МОГУТ ОТОБРАЖАТЬСЯ НЕ ПРАВИЛЬНО)
+  </li>
+  <li>TableStats - вычисление и рендер статистики.</li>
+  <li>LangToggler - компонент переключения языков</li>
+  <li>useNumb - вынес в отдельный хук хранение массива чисел, сайдэффект useEffect проверяет данные после рендера localStorage и так же при зависимости когда меняется массив numbers + addNumber/removeNumber по index.</li>
+  <li>Поскольку в требованиях знания TS, то решил его использовать и тут.</li>
+  <li>В каждой папке с компонентами есть файлы types.ts, где необходимо.</li>
+  <li>A так же index.ts для удобства импортов.</li>
+</ul>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<ul>2. Использовал минимальные стили TailwindCSS, подключение в globals.css.
+  <li>Не использовал какие-либо переменные, все стили писал базовыми утилитарными классами в компонентах.</li>
+  <li>Использовал библиотеку готовых компонентов Shadcn/UI для карточки, кнопок, инпута и лейбла.</li>
+  <li>Предусмотрел правильный UI, если список чисел пуст или у пользователя как-то получилось вписать буквы вместо цифр (alert).</li>
+</ul>
 
-## Expanding the ESLint configuration
+<ul>3. Добавил мультиязычность, так как часто работал с библиотекой i18n в NextJS.
+  <li>Все тексты вынес в отдельные файлы.</li>
+  <li>Сделал переключатель языков с флагами стран.</li>
+</ul>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+<h2>Почему так?</h2>
+<ul>
+  <li>Все компоненты выполняют что-то одно как правило, так проще при желании тестировать и это правильно in general.</li>
+  <li>Использовал локальный стейт менеджер useState, потому что глобальные Redux/Zustand избыточны для такого приложения...</li>
+  <li>Выбрал localStorage как самый простой способ сохранения данных на клиенте.</li>
+  <li>Tailwind удобен для быстрой стилизации, он быстрый и 0 runtime в отличии от умерших styled-components.</li>
+  <li>Shadcn/UI добавил как пример, что можно использовать готовые UI библиотеки и потом стилизовать компоненты при желании.</li>
+</ul>
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+<h2>На что обращал внимание?</h2>
+<ul>
+  <li>Типизация TypeScript, хоть тут она особо и не нужна, но хотел показать, что работал с ним, вынес структурно как привык делать в отдельные файлы types.ts</li>
+  <li>Хотел, чтобы код был чистым, а все компоненты были независимы друг от друга и была возможность их переиспользовать, поэтому соответственно и такая структура проекта. (это вкусовщина)</li>
+  <li>Вся логика работы с числами вынесена в кастомный хук, хотя опять же, для данного приложения это не критично, но хотел показать, что так удобнее и правильнее делать.</li>
+  <li>При желании, с такой структурой приложения, можно легко добавить новый функционал (расширить), добавить анимации и тд.</li>
+</ul>
